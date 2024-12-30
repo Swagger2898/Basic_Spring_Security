@@ -32,10 +32,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
+
+
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception{
@@ -43,26 +46,17 @@ public class SecurityConfig {
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
         authenticationManagerBuilder.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+              ;
 
         return authenticationManagerBuilder.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
+//
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
 
 }
 

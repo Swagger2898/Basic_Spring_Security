@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.userdetails.User;
@@ -15,15 +16,15 @@ public class HelloController {
 
 
     private final EmailService emailService;
-    private final AuthenticationManager authenticationManager;
+    //private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public HelloController(EmailService emailService, AuthenticationManager authenticationManager) {
+    public HelloController(EmailService emailService) {
         this.emailService = emailService;
-        this.authenticationManager = authenticationManager;
+        //this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping("/send-email")
+    @PostMapping("/send-email")
     public String sendEmail(@RequestParam String to, @RequestParam String subject,@RequestParam String message){
         emailService.sendEmail(to, subject,message);
         return "Email sent successfully";
